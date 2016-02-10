@@ -37,6 +37,11 @@
     
     self.feedbackTextView.text = feedback;
     self.resultTextView.text = @"0.0";
+    
+    
+    //Borders
+    [self addBorders];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -172,6 +177,9 @@
     self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
 }
 
+- (IBAction)backspaceButtonPressed:(UIButton *)sender {
+}
+
 
 
 
@@ -196,6 +204,89 @@
     }
     self.feedbackTextView.text = feedback;
 }
+-(void)addBorders{
+    self.resultTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.resultTextView.layer.borderWidth = 1;
+    self.resultTextView.layer.cornerRadius = 10;
+    self.resultTextView.layer.masksToBounds = YES;
+    self.feedbackTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.feedbackTextView.layer.borderWidth = 1;
+    self.feedbackTextView.layer.cornerRadius = 10;
+    self.feedbackTextView.layer.masksToBounds = YES;
+    self.clearButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.clearButton.layer.borderWidth = 1;
+    self.clearButton.layer.cornerRadius = 10;
+    self.clearButton.layer.masksToBounds = YES;
+    self.backspaceButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.backspaceButton.layer.borderWidth = 1;
+    self.backspaceButton.layer.cornerRadius = 10;
+    self.backspaceButton.layer.masksToBounds = YES;
+    self.addButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.addButton.layer.borderWidth = 1;
+    self.addButton.layer.cornerRadius = 10;
+    self.addButton.layer.masksToBounds = YES;
+    self.subtractButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.subtractButton.layer.borderWidth = 1;
+    self.subtractButton.layer.cornerRadius = 10;
+    self.subtractButton.layer.masksToBounds = YES;
+    self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.multiplyButton.layer.borderWidth = 1;
+    self.multiplyButton.layer.cornerRadius = 10;
+    self.multiplyButton.layer.masksToBounds = YES;
+    self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.divideButton.layer.borderWidth = 1;
+    self.divideButton.layer.cornerRadius = 10;
+    self.divideButton.layer.masksToBounds = YES;
+    self.equalsButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.equalsButton.layer.borderWidth = 1;
+    self.equalsButton.layer.cornerRadius = 10;
+    self.equalsButton.layer.masksToBounds = YES;
+    
+    self.zeroButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.zeroButton.layer.borderWidth = 1;
+    self.zeroButton.layer.cornerRadius = 10;
+    self.zeroButton.layer.masksToBounds = YES;
+    self.oneButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.oneButton.layer.borderWidth = 1;
+    self.oneButton.layer.cornerRadius = 10;
+    self.oneButton.layer.masksToBounds = YES;
+    self.twoButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.twoButton.layer.borderWidth = 1;
+    self.twoButton.layer.cornerRadius = 10;
+    self.twoButton.layer.masksToBounds = YES;
+    self.threeButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.threeButton.layer.borderWidth = 1;
+    self.threeButton.layer.cornerRadius = 10;
+    self.threeButton.layer.masksToBounds = YES;
+    self.fourButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.fourButton.layer.borderWidth = 1;
+    self.fourButton.layer.cornerRadius = 10;
+    self.fourButton.layer.masksToBounds = YES;
+    self.fiveButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.fiveButton.layer.borderWidth = 1;
+    self.fiveButton.layer.cornerRadius = 10;
+    self.fiveButton.layer.masksToBounds = YES;
+    self.sixButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.sixButton.layer.borderWidth = 1;
+    self.sixButton.layer.cornerRadius = 10;
+    self.sixButton.layer.masksToBounds = YES;
+    self.sevenButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.sevenButton.layer.borderWidth = 1;
+    self.sevenButton.layer.cornerRadius = 10;
+    self.sevenButton.layer.masksToBounds = YES;
+    self.eightButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.eightButton.layer.borderWidth = 1;
+    self.eightButton.layer.cornerRadius = 10;
+    self.eightButton.layer.masksToBounds = YES;
+    self.nineButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.nineButton.layer.borderWidth = 1;
+    self.nineButton.layer.cornerRadius = 10;
+    self.nineButton.layer.masksToBounds = YES;
+}
+
+
+
+
 
 
 

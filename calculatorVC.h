@@ -40,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *nineButton;
 //Other
 @property (strong, nonatomic) IBOutlet UIButton *clearButton;
+@property (strong, nonatomic) IBOutlet UIButton *backspaceButton;
 
 
 //---------------------------------------------------------
@@ -64,6 +65,7 @@
 - (IBAction)nineButtonPressed:(UIButton *)sender;
 //Other
 - (IBAction)clearButtonPressed:(UIButton *)sender;
+- (IBAction)backspaceButtonPressed:(UIButton *)sender;
 
 
 
