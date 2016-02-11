@@ -9,6 +9,9 @@
 #import "calculatorVC.h"
 
 
+#define kBorderSize 2
+#define kCornerRadius 10
+
 @interface calculatorVC () {
     
     //States
@@ -20,9 +23,8 @@
     UIButton *previousOperationButton;
     UIButton *numberPressed;
     
-    double total;
     NSString *feedback;
-    
+    double total;
 }
 
 @end
@@ -32,16 +34,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    total = 0.0;
-    feedback = @"";
-    
-    self.feedbackTextView.text = feedback;
-    self.resultTextView.text = @"0.0";
+    //Clear content
+    [self clear];
     
     
     //Borders
     [self addBorders];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,25 +91,9 @@
 }
 - (IBAction)equalsButtonPressed:(UIButton *)sender {
     NSLog(@"Equals Pressed");
-    
     [self calculate];
 }
--(void)calculate {
-    if (adding) {
-        total = [self add:total to:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Adding: total is %f", total);
-    } else if (subtracting) {
-        total = [self subtract:total from:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Subtracting: total is %f", total);
-    } else if (multiplying) {
-        total = [self multiply:total by:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Multiplying: total is %f", total);
-    } else if (dividing) {
-        total = [self divide:total by:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Dividing: total is %f", total);
-    }
-    [self updateResult];
-}
+
 
 
 #pragma mark - Numbers
@@ -171,12 +153,8 @@
 #pragma mark - Other
 
 - (IBAction)clearButtonPressed:(UIButton *)sender {
-    total = 0;
-    feedback = @"";
-    self.feedbackTextView.text = feedback;
-    self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
+    [self clear];
 }
-
 - (IBAction)backspaceButtonPressed:(UIButton *)sender {
 }
 
@@ -206,85 +184,113 @@
 }
 -(void)addBorders{
     self.resultTextView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.resultTextView.layer.borderWidth = 1;
-    self.resultTextView.layer.cornerRadius = 10;
+    self.resultTextView.layer.borderWidth = kBorderSize;
+    self.resultTextView.layer.cornerRadius = kCornerRadius;
     self.resultTextView.layer.masksToBounds = YES;
     self.feedbackTextView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.feedbackTextView.layer.borderWidth = 1;
-    self.feedbackTextView.layer.cornerRadius = 10;
+    self.feedbackTextView.layer.borderWidth = kBorderSize;
+    self.feedbackTextView.layer.cornerRadius = kCornerRadius;
     self.feedbackTextView.layer.masksToBounds = YES;
     self.clearButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.clearButton.layer.borderWidth = 1;
-    self.clearButton.layer.cornerRadius = 10;
+    self.clearButton.layer.borderWidth = kBorderSize;
+    self.clearButton.layer.cornerRadius = kCornerRadius;
     self.clearButton.layer.masksToBounds = YES;
     self.backspaceButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.backspaceButton.layer.borderWidth = 1;
-    self.backspaceButton.layer.cornerRadius = 10;
+    self.backspaceButton.layer.borderWidth = kBorderSize;
+    self.backspaceButton.layer.cornerRadius = kCornerRadius;
     self.backspaceButton.layer.masksToBounds = YES;
     self.addButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.addButton.layer.borderWidth = 1;
-    self.addButton.layer.cornerRadius = 10;
+    self.addButton.layer.borderWidth = kBorderSize;
+    self.addButton.layer.cornerRadius = kCornerRadius;
     self.addButton.layer.masksToBounds = YES;
     self.subtractButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.subtractButton.layer.borderWidth = 1;
-    self.subtractButton.layer.cornerRadius = 10;
+    self.subtractButton.layer.borderWidth = kBorderSize;
+    self.subtractButton.layer.cornerRadius = kCornerRadius;
     self.subtractButton.layer.masksToBounds = YES;
     self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.multiplyButton.layer.borderWidth = 1;
-    self.multiplyButton.layer.cornerRadius = 10;
+    self.multiplyButton.layer.borderWidth = kBorderSize;
+    self.multiplyButton.layer.cornerRadius = kCornerRadius;
     self.multiplyButton.layer.masksToBounds = YES;
     self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.divideButton.layer.borderWidth = 1;
-    self.divideButton.layer.cornerRadius = 10;
+    self.divideButton.layer.borderWidth = kBorderSize;
+    self.divideButton.layer.cornerRadius = kCornerRadius;
     self.divideButton.layer.masksToBounds = YES;
     self.equalsButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.equalsButton.layer.borderWidth = 1;
-    self.equalsButton.layer.cornerRadius = 10;
+    self.equalsButton.layer.borderWidth = kBorderSize;
+    self.equalsButton.layer.cornerRadius = kCornerRadius;
     self.equalsButton.layer.masksToBounds = YES;
     
     self.zeroButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.zeroButton.layer.borderWidth = 1;
-    self.zeroButton.layer.cornerRadius = 10;
+    self.zeroButton.layer.borderWidth = kBorderSize;
+    self.zeroButton.layer.cornerRadius = kCornerRadius;
     self.zeroButton.layer.masksToBounds = YES;
     self.oneButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.oneButton.layer.borderWidth = 1;
-    self.oneButton.layer.cornerRadius = 10;
+    self.oneButton.layer.borderWidth = kBorderSize;
+    self.oneButton.layer.cornerRadius = kCornerRadius;
     self.oneButton.layer.masksToBounds = YES;
     self.twoButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.twoButton.layer.borderWidth = 1;
-    self.twoButton.layer.cornerRadius = 10;
+    self.twoButton.layer.borderWidth = kBorderSize;
+    self.twoButton.layer.cornerRadius = kCornerRadius;
     self.twoButton.layer.masksToBounds = YES;
     self.threeButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.threeButton.layer.borderWidth = 1;
-    self.threeButton.layer.cornerRadius = 10;
+    self.threeButton.layer.borderWidth = kBorderSize;
+    self.threeButton.layer.cornerRadius = kCornerRadius;
     self.threeButton.layer.masksToBounds = YES;
     self.fourButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.fourButton.layer.borderWidth = 1;
-    self.fourButton.layer.cornerRadius = 10;
+    self.fourButton.layer.borderWidth = kBorderSize;
+    self.fourButton.layer.cornerRadius = kCornerRadius;
     self.fourButton.layer.masksToBounds = YES;
     self.fiveButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.fiveButton.layer.borderWidth = 1;
-    self.fiveButton.layer.cornerRadius = 10;
+    self.fiveButton.layer.borderWidth = kBorderSize;
+    self.fiveButton.layer.cornerRadius = kCornerRadius;
     self.fiveButton.layer.masksToBounds = YES;
     self.sixButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.sixButton.layer.borderWidth = 1;
-    self.sixButton.layer.cornerRadius = 10;
+    self.sixButton.layer.borderWidth = kBorderSize;
+    self.sixButton.layer.cornerRadius = kCornerRadius;
     self.sixButton.layer.masksToBounds = YES;
     self.sevenButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.sevenButton.layer.borderWidth = 1;
-    self.sevenButton.layer.cornerRadius = 10;
+    self.sevenButton.layer.borderWidth = kBorderSize;
+    self.sevenButton.layer.cornerRadius = kCornerRadius;
     self.sevenButton.layer.masksToBounds = YES;
     self.eightButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.eightButton.layer.borderWidth = 1;
-    self.eightButton.layer.cornerRadius = 10;
+    self.eightButton.layer.borderWidth = kBorderSize;
+    self.eightButton.layer.cornerRadius = kCornerRadius;
     self.eightButton.layer.masksToBounds = YES;
     self.nineButton.layer.borderColor = [UIColor blackColor].CGColor;
-    self.nineButton.layer.borderWidth = 1;
-    self.nineButton.layer.cornerRadius = 10;
+    self.nineButton.layer.borderWidth = kBorderSize;
+    self.nineButton.layer.cornerRadius = kCornerRadius;
     self.nineButton.layer.masksToBounds = YES;
 }
-
-
+-(void)calculate {
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
+    if (adding) {
+        NSLog(@"total is %f", total);
+        NSLog(@"the numberpressed is %f", [numberPressed.titleLabel.text doubleValue]);
+        total = [self add:total to:[numberPressed.titleLabel.text doubleValue]];
+        NSLog(@"Adding: total is %f", total);
+    } else if (subtracting) {
+        total = [self subtract:total from:[numberPressed.titleLabel.text doubleValue]];
+        NSLog(@"Subtracting: total is %f", total);
+    } else if (multiplying) {
+        total = [self multiply:total by:[numberPressed.titleLabel.text doubleValue]];
+        NSLog(@"Multiplying: total is %f", total);
+    } else if (dividing) {
+        total = [self divide:total by:[numberPressed.titleLabel.text doubleValue]];
+        NSLog(@"Dividing: total is %f", total);
+    }
+    [self updateResult];
+}
+-(void)clear{
+    total = 0.0;
+    feedback = @"";
+    self.feedbackTextView.text = feedback;
+    self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
+    
+    [self changePreviousOperation];
+    numberPressed = nil;
+}
 
 
 
@@ -295,21 +301,24 @@
 
 -(void)changeOperationStateOf:(UIButton *)sender {
     if (previousOperationButton) {
-        [previousOperationButton.layer setBorderColor:[UIColor clearColor].CGColor];
+        [previousOperationButton.layer setBorderColor:[UIColor blackColor].CGColor];
     }
     previousOperationButton = sender;
-    [sender.layer setBorderWidth:2];
     [sender.layer setBorderColor:[UIColor redColor].CGColor];
 }
 -(void)changePreviousOperation{
     if (adding) {
         adding = !adding;
+        self.addButton.layer.borderColor = [UIColor blackColor].CGColor;
     } else if (subtracting) {
         subtracting = !subtracting;
+        self.subtractButton.layer.borderColor = [UIColor blackColor].CGColor;
     } else if (multiplying) {
         multiplying = !multiplying;
+        self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
     } else if (dividing) {
         dividing = !dividing;
+        self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
     }
 }
 

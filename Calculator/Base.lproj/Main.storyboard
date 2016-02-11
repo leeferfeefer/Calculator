@@ -78,7 +78,7 @@
                                     <constraint firstAttribute="height" constant="50" id="lmp-d2-1Bz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Div">
+                                <state key="normal" title="/">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
