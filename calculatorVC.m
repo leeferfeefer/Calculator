@@ -64,6 +64,8 @@
     
     //Show/hide dividing state
     [self changeOperationStateOf:sender];
+    
+    [self updateFeedbackWithNumber:nil andOperation:@"+"];
 }
 - (IBAction)subtractButtonPressed:(UIButton *)sender {
     NSLog(@"Subtract Pressed");
@@ -72,6 +74,8 @@
     
     //Show/hide dividing state
     [self changeOperationStateOf:sender];
+    
+    [self updateFeedbackWithNumber:nil andOperation:@"-"];
 }
 - (IBAction)multiplyButtonPressed:(UIButton *)sender {
     NSLog(@"Multiply Pressed");
@@ -80,6 +84,8 @@
 
     //Show/hide dividing state
     [self changeOperationStateOf:sender];
+    
+    [self updateFeedbackWithNumber:nil andOperation:@"x"];
 }
 - (IBAction)divideButtonPressed:(UIButton *)sender {
     NSLog(@"Divide Pressed");
@@ -88,6 +94,8 @@
     
     //Show/hide dividing state
     [self changeOperationStateOf:sender];
+    
+    [self updateFeedbackWithNumber:nil andOperation:@"/"];
 }
 - (IBAction)equalsButtonPressed:(UIButton *)sender {
     NSLog(@"Equals Pressed");
@@ -101,52 +109,79 @@
 - (IBAction)zeroButtonPressed:(UIButton *)sender {
     NSLog(@"Zero Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)oneButtonPressed:(UIButton *)sender {
     NSLog(@"One Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)twoButtonPressed:(UIButton *)sender {
     NSLog(@"Two Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)threeButtonPressed:(UIButton *)sender {
     NSLog(@"Three Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)fourButtonPressed:(UIButton *)sender {
     NSLog(@"Four Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)fiveButtonPressed:(UIButton *)sender {
     NSLog(@"Five Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)sixButtonPressed:(UIButton *)sender {
     NSLog(@"Six Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)sevenButtonPressed:(UIButton *)sender {
     NSLog(@"Seven Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)eightButtonPressed:(UIButton *)sender {
     NSLog(@"Eight Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 - (IBAction)nineButtonPressed:(UIButton *)sender {
     NSLog(@"Nine Pressed");
     numberPressed = sender;
-    [self updateFeedback:sender];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    if (total == 0) {
+        total = [numberPressed.titleLabel.text doubleValue];
+    }
 }
 
 
@@ -166,19 +201,15 @@
 -(void)updateResult{
     self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
 }
--(void)updateFeedback:(UIButton *)sender{
-    if ([feedback isEqualToString:@""]) {
-        feedback = sender.titleLabel.text;
-    } else {
-        if (adding) {
-            feedback = [NSString stringWithFormat: @" %@ %@ %@", feedback, @"+", sender.titleLabel.text];
-        } else if (subtracting) {
-            feedback = [NSString stringWithFormat: @" %@ %@ %@", feedback, @"-", sender.titleLabel.text];
-        } else if (multiplying) {
-            feedback = [NSString stringWithFormat: @" %@ %@ %@", feedback, @"x", sender.titleLabel.text];
-        } else if (dividing) {
-            feedback = [NSString stringWithFormat: @" %@ %@ %@", feedback, @"/", sender.titleLabel.text];
+-(void)updateFeedbackWithNumber:(NSString *)buttonTitle andOperation:(NSString *)operation {
+    if (buttonTitle) {
+        if ([feedback isEqualToString:@""]) {
+            feedback = buttonTitle;
+        } else {
+            feedback = [NSString stringWithFormat: @" %@ %@", feedback, buttonTitle];
         }
+    } else {
+        feedback = [NSString stringWithFormat: @" %@ %@", feedback, operation];
     }
     self.feedbackTextView.text = feedback;
 }
@@ -262,24 +293,18 @@
     self.nineButton.layer.masksToBounds = YES;
 }
 -(void)calculate {
-    if (total == 0) {
-        total = [numberPressed.titleLabel.text doubleValue];
-    }
+    NSLog(@"total before operation is %f", total);
     if (adding) {
-        NSLog(@"total is %f", total);
-        NSLog(@"the numberpressed is %f", [numberPressed.titleLabel.text doubleValue]);
         total = [self add:total to:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Adding: total is %f", total);
     } else if (subtracting) {
         total = [self subtract:total from:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Subtracting: total is %f", total);
     } else if (multiplying) {
         total = [self multiply:total by:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Multiplying: total is %f", total);
     } else if (dividing) {
         total = [self divide:total by:[numberPressed.titleLabel.text doubleValue]];
-        NSLog(@"Dividing: total is %f", total);
     }
+    NSLog(@"the numberpressed is %f", [numberPressed.titleLabel.text doubleValue]);
+    NSLog(@"total after operation is %f", total);
     [self updateResult];
 }
 -(void)clear{
