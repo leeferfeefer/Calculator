@@ -38,8 +38,7 @@
     //Clear content
     [self clear];
     
-    
-    //Borders
+    //Set borders
     [self addBorders];
 }
 
@@ -62,6 +61,9 @@
     if (total == 0) {
         total = numberPressedDouble;
     }
+    numberPressedDouble = 0.0;
+
+    
     NSLog(@"Add Pressed");
     [self changePreviousOperation];
     adding = !adding;
@@ -75,6 +77,9 @@
     if (total == 0) {
         total = numberPressedDouble;
     }
+    numberPressedDouble = 0.0;
+
+    
     NSLog(@"Subtract Pressed");
     [self changePreviousOperation];
     subtracting = !subtracting;
@@ -88,6 +93,8 @@
     if (total == 0) {
         total = numberPressedDouble;
     }
+    numberPressedDouble = 0.0;
+
     
     NSLog(@"Multiply Pressed");
     [self changePreviousOperation];
@@ -102,6 +109,8 @@
     if (total == 0) {
         total = numberPressedDouble;
     }
+    numberPressedDouble = 0.0;
+
     
     NSLog(@"Divide Pressed");
     [self changePreviousOperation];
@@ -123,62 +132,53 @@
 
 - (IBAction)zeroButtonPressed:(UIButton *)sender {
     NSLog(@"Zero Pressed");
-    [self checkForMultiDigitWith:sender];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)oneButtonPressed:(UIButton *)sender {
     NSLog(@"One Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)twoButtonPressed:(UIButton *)sender {
     NSLog(@"Two Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)threeButtonPressed:(UIButton *)sender {
     NSLog(@"Three Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)fourButtonPressed:(UIButton *)sender {
     NSLog(@"Four Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)fiveButtonPressed:(UIButton *)sender {
     NSLog(@"Five Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)sixButtonPressed:(UIButton *)sender {
     NSLog(@"Six Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)sevenButtonPressed:(UIButton *)sender {
     NSLog(@"Seven Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)eightButtonPressed:(UIButton *)sender {
     NSLog(@"Eight Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 - (IBAction)nineButtonPressed:(UIButton *)sender {
     NSLog(@"Nine Pressed");
-    [self checkForMultiDigitWith:sender];
-    numberPressedDouble = [sender.titleLabel.text doubleValue];
-    [self updateFeedbackWithNumber:numberPressedDouble andOperation:nil];
+    [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
+    [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
 }
 
 
@@ -198,12 +198,12 @@
 -(void)updateResult{
     self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
 }
--(void)updateFeedbackWithNumber:(double)number andOperation:(NSString *)operation {
+-(void)updateFeedbackWithNumber:(NSString *)number andOperation:(NSString *)operation {
     if (!operation) {
         if ([feedback isEqualToString:@""]) {
-            feedback = [NSString stringWithFormat:@"%d", (int)number];
+            feedback = [NSString stringWithFormat:@"%@", number];
         } else {
-            feedback = [NSString stringWithFormat: @"%@%d", feedback, (int)number];
+            feedback = [NSString stringWithFormat: @"%@%@", feedback, number];
         }
     } else {
         feedback = [NSString stringWithFormat: @" %@ %@ ", feedback, operation];
@@ -302,7 +302,6 @@
     }
     NSLog(@"the numberpresseddouble is %f", numberPressedDouble);
     NSLog(@"total after operation is %f", total);
-    numberPressedDouble = 0.0;
     [self updateResult];
 }
 -(void)clear{
@@ -314,13 +313,14 @@
     [self changePreviousOperation];
     numberPressedDouble = total;
 }
--(void)checkForMultiDigitWith:(UIButton *)sender{
+-(void)checkForMultiDigitWithNumber:(double)buttonNumber{
     if (numberPressedDouble == 0.0) {
-        numberPressedDouble = [sender.titleLabel.text doubleValue];
+        numberPressedDouble = buttonNumber;
     } else {
-        double onesDigit = [sender.titleLabel.text doubleValue];
+        double onesDigit = buttonNumber;
         numberPressedDouble = numberPressedDouble*10 + onesDigit;
     }
+    NSLog(@"the number pressed double is %f", numberPressedDouble);
 }
 
 
