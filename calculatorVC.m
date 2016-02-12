@@ -242,11 +242,7 @@
             feedback = [NSString stringWithFormat: @"%@%@", feedback, number];
         }
     } else {
-        if (multiplying || dividing) {
-            [self addParenthesesWithOperation:operation];
-        } else {
-            feedback = [NSString stringWithFormat: @" %@ %@ ", feedback, operation];
-        }
+        [self addParenthesesWithOperation:operation];
     }
     self.feedbackTextView.text = feedback;
 }
@@ -341,15 +337,13 @@
         total = [self subtract:total from:numberPressedDouble];
     } else if (multiplying) {
         total = [self multiply:total by:numberPressedDouble];
-        feedback = [NSString stringWithFormat:@"%@)", feedback];
-        self.feedbackTextView.text = feedback;
     } else if (dividing) {
         total = [self divide:total by:numberPressedDouble];
-        feedback = [NSString stringWithFormat:@"%@)", feedback];
-        self.feedbackTextView.text = feedback;
     } else {
         total = numberPressedDouble;
     }
+    feedback = [NSString stringWithFormat:@"%@)", feedback];
+    self.feedbackTextView.text = feedback;
     NSLog(@"the numberpresseddouble is %f", numberPressedDouble);
     NSLog(@"total after operation is %f", total);
     isDecimal = NO;
