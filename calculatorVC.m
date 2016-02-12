@@ -217,7 +217,6 @@
 }
 - (IBAction)backspaceButtonPressed:(UIButton *)sender {
 }
-
 - (IBAction)decimalButtonPressed:(UIButton *)sender {
     NSLog(@"total is %f", total);
     NSLog(@"number pressed double is %f", numberPressedDouble);
@@ -243,7 +242,11 @@
             feedback = [NSString stringWithFormat: @"%@%@", feedback, number];
         }
     } else {
-        feedback = [NSString stringWithFormat: @" %@ %@ ", feedback, operation];
+        if (multiplying || dividing) {
+            [self addParenthesesWithOperation:operation];
+        } else {
+            feedback = [NSString stringWithFormat: @" %@ %@ ", feedback, operation];
+        }
     }
     self.feedbackTextView.text = feedback;
 }
@@ -338,18 +341,22 @@
         total = [self subtract:total from:numberPressedDouble];
     } else if (multiplying) {
         total = [self multiply:total by:numberPressedDouble];
+        feedback = [NSString stringWithFormat:@"%@)", feedback];
+        self.feedbackTextView.text = feedback;
     } else if (dividing) {
         total = [self divide:total by:numberPressedDouble];
+        feedback = [NSString stringWithFormat:@"%@)", feedback];
+        self.feedbackTextView.text = feedback;
     } else {
         total = numberPressedDouble;
     }
-    isDecimal = NO;
-    exponent = 0;
     NSLog(@"the numberpresseddouble is %f", numberPressedDouble);
     NSLog(@"total after operation is %f", total);
+    isDecimal = NO;
+    exponent = 0;
+    numberPressedDouble = 0;
     [self updateResult];
-
-
+    [self changePreviousOperation];
 }
 -(void)clear{
     isDecimal = NO;
@@ -382,7 +389,8 @@
     
     NSLog(@"the number pressed double is %f", numberPressedDouble);
 }
--(void)addParentheses{
+-(void)addParenthesesWithOperation:(NSString *)operation{
+    feedback = [NSString stringWithFormat: @" (%@ %@ ", feedback, operation];
 }
 -(BOOL)isNumberBeforeOperation{
     return ![self.feedbackTextView.text isEqualToString:@""];
