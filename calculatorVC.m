@@ -20,9 +20,12 @@
     BOOL multiplying;
     BOOL dividing;
     
+    BOOL isDecimal;
+    
     
     UIButton *previousOperationButton;
     double numberPressedDouble;
+    int exponent;
     
     NSString *feedback;
     double total;
@@ -62,7 +65,8 @@
         total = numberPressedDouble;
     }
     numberPressedDouble = 0.0;
-
+    exponent = 0;
+    isDecimal = NO;
     
     NSLog(@"Add Pressed");
     [self changePreviousOperation];
@@ -78,7 +82,8 @@
         total = numberPressedDouble;
     }
     numberPressedDouble = 0.0;
-
+    exponent = 0;
+    isDecimal = NO;
     
     NSLog(@"Subtract Pressed");
     [self changePreviousOperation];
@@ -94,7 +99,8 @@
         total = numberPressedDouble;
     }
     numberPressedDouble = 0.0;
-
+    exponent = 0;
+    isDecimal = NO;
     
     NSLog(@"Multiply Pressed");
     [self changePreviousOperation];
@@ -110,7 +116,8 @@
         total = numberPressedDouble;
     }
     numberPressedDouble = 0.0;
-
+    exponent = 0;
+    isDecimal = NO;
     
     NSLog(@"Divide Pressed");
     [self changePreviousOperation];
@@ -190,6 +197,15 @@
 - (IBAction)backspaceButtonPressed:(UIButton *)sender {
 }
 
+- (IBAction)decimalButtonPressed:(UIButton *)sender {
+    NSLog(@"total is %f", total);
+    NSLog(@"number pressed double is %f", numberPressedDouble);
+    if (!isDecimal) {
+        [self updateFeedbackWithNumber:@"." andOperation:nil];
+        isDecimal = YES;
+    }
+}
+
 
 
 
@@ -247,6 +263,10 @@
     self.equalsButton.layer.borderWidth = kBorderSize;
     self.equalsButton.layer.cornerRadius = kCornerRadius;
     self.equalsButton.layer.masksToBounds = YES;
+    self.decimalButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.decimalButton.layer.borderWidth = kBorderSize;
+    self.decimalButton.layer.cornerRadius = kCornerRadius;
+    self.decimalButton.layer.masksToBounds = YES;
     
     self.zeroButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.zeroButton.layer.borderWidth = kBorderSize;
@@ -299,30 +319,50 @@
         total = [self multiply:total by:numberPressedDouble];
     } else if (dividing) {
         total = [self divide:total by:numberPressedDouble];
+    } else {
+        total = numberPressedDouble;
     }
+    isDecimal = NO;
+    exponent = 0;
     NSLog(@"the numberpresseddouble is %f", numberPressedDouble);
     NSLog(@"total after operation is %f", total);
     [self updateResult];
+
+
 }
 -(void)clear{
+    isDecimal = NO;
     total = 0.0;
+    exponent = 0;
+    numberPressedDouble = 0.0;
     feedback = @"";
-    self.feedbackTextView.text = feedback;
+    self.feedbackTextView.text = @"";
     self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
     
     [self changePreviousOperation];
-    numberPressedDouble = total;
 }
 -(void)checkForMultiDigitWithNumber:(double)buttonNumber{
-    if (numberPressedDouble == 0.0) {
-        numberPressedDouble = buttonNumber;
+    if (!isDecimal) {
+        if (numberPressedDouble == 0.0) {
+            numberPressedDouble = buttonNumber;
+        } else {
+            numberPressedDouble = numberPressedDouble*10 + buttonNumber;
+        }
     } else {
-        double onesDigit = buttonNumber;
-        numberPressedDouble = numberPressedDouble*10 + onesDigit;
+        if (exponent == 0) {
+            numberPressedDouble = numberPressedDouble + buttonNumber/10;
+            exponent--;
+        } else {
+            exponent--;
+            //take the button number and move over decimal places to the power of exponent
+            numberPressedDouble = numberPressedDouble + buttonNumber*pow(10, exponent);
+        }
     }
+    
     NSLog(@"the number pressed double is %f", numberPressedDouble);
 }
-
+-(void)addParentheses{
+}
 
 
 
@@ -362,7 +402,7 @@
 
 
 
-
+#pragma mark - Operations
 
 #pragma mark - Addition
 
@@ -390,19 +430,6 @@
 -(double)divide:(double)number1 by:(double)number2{
     return number1/number2;
 }
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 
 
