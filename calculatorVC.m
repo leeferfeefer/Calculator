@@ -61,72 +61,93 @@
 #pragma mark - Operations
 
 - (IBAction)addButtonPressed:(UIButton *)sender {
-    if (total == 0) {
-        total = numberPressedDouble;
+    if ([self isNumberBeforeOperation]) {
+        if (total == 0) {
+            total = numberPressedDouble;
+        }
+        numberPressedDouble = 0.0;
+        exponent = 0;
+        isDecimal = NO;
+        
+        NSLog(@"Add Pressed");
+        [self changePreviousOperation];
+        adding = !adding;
+        
+        //Show/hide dividing state
+        [self changeOperationStateOf:sender];
+        
+        [self updateFeedbackWithNumber:0 andOperation:@"+"];
+
+    } else {
+        NSLog(@"number not before operation");
+        [self showErrorAlert];
     }
-    numberPressedDouble = 0.0;
-    exponent = 0;
-    isDecimal = NO;
-    
-    NSLog(@"Add Pressed");
-    [self changePreviousOperation];
-    adding = !adding;
-    
-    //Show/hide dividing state
-    [self changeOperationStateOf:sender];
-    
-    [self updateFeedbackWithNumber:0 andOperation:@"+"];
 }
 - (IBAction)subtractButtonPressed:(UIButton *)sender {
-    if (total == 0) {
-        total = numberPressedDouble;
+    if ([self isNumberBeforeOperation]) {
+        if (total == 0) {
+            total = numberPressedDouble;
+        }
+        numberPressedDouble = 0.0;
+        exponent = 0;
+        isDecimal = NO;
+        
+        NSLog(@"Subtract Pressed");
+        [self changePreviousOperation];
+        subtracting = !subtracting;
+        
+        //Show/hide dividing state
+        [self changeOperationStateOf:sender];
+        
+        [self updateFeedbackWithNumber:0 andOperation:@"-"];
+    } else {
+        NSLog(@"number not before operation");
+        [self showErrorAlert];
     }
-    numberPressedDouble = 0.0;
-    exponent = 0;
-    isDecimal = NO;
-    
-    NSLog(@"Subtract Pressed");
-    [self changePreviousOperation];
-    subtracting = !subtracting;
-    
-    //Show/hide dividing state
-    [self changeOperationStateOf:sender];
-    
-    [self updateFeedbackWithNumber:0 andOperation:@"-"];
 }
 - (IBAction)multiplyButtonPressed:(UIButton *)sender {
-    if (total == 0) {
-        total = numberPressedDouble;
-    }
-    numberPressedDouble = 0.0;
-    exponent = 0;
-    isDecimal = NO;
-    
-    NSLog(@"Multiply Pressed");
-    [self changePreviousOperation];
-    multiplying = !multiplying;
+    if ([self isNumberBeforeOperation]) {
+        if (total == 0) {
+            total = numberPressedDouble;
+        }
+        numberPressedDouble = 0.0;
+        exponent = 0;
+        isDecimal = NO;
+        
+        NSLog(@"Multiply Pressed");
+        [self changePreviousOperation];
+        multiplying = !multiplying;
 
-    //Show/hide dividing state
-    [self changeOperationStateOf:sender];
-    
-    [self updateFeedbackWithNumber:0 andOperation:@"x"];
+        //Show/hide dividing state
+        [self changeOperationStateOf:sender];
+        
+        [self updateFeedbackWithNumber:0 andOperation:@"x"];
+    } else {
+        NSLog(@"number not before operation");
+        [self showErrorAlert];
+    }
 }
 - (IBAction)divideButtonPressed:(UIButton *)sender {
-    if (total == 0) {
-        total = numberPressedDouble;
+    if ([self isNumberBeforeOperation]) {
+        if (total == 0) {
+            total = numberPressedDouble;
+        }
+        numberPressedDouble = 0.0;
+        exponent = 0;
+        isDecimal = NO;
+        
+        NSLog(@"Divide Pressed");
+        [self changePreviousOperation];
+        dividing = !dividing;
+        
+        //Show/hide dividing state
+        [self changeOperationStateOf:sender];
+        
+        [self updateFeedbackWithNumber:0 andOperation:@"/"];
+    } else {
+        NSLog(@"number not before operation");
+        [self showErrorAlert];
     }
-    numberPressedDouble = 0.0;
-    exponent = 0;
-    isDecimal = NO;
-    
-    NSLog(@"Divide Pressed");
-    [self changePreviousOperation];
-    dividing = !dividing;
-    
-    //Show/hide dividing state
-    [self changeOperationStateOf:sender];
-    
-    [self updateFeedbackWithNumber:0 andOperation:@"/"];
 }
 - (IBAction)equalsButtonPressed:(UIButton *)sender {
     NSLog(@"Equals Pressed");
@@ -363,8 +384,18 @@
 }
 -(void)addParentheses{
 }
-
-
+-(BOOL)isNumberBeforeOperation{
+    return ![self.feedbackTextView.text isEqualToString:@""];
+}
+-(void)showErrorAlert{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops" message:@"You must enter a number before any operation." preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 
 
