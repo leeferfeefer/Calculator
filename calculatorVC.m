@@ -24,7 +24,7 @@
  
  
     NOTE:
-        -This app runs best on iphone 6
+        -This app runs best on iphone 6/6 plus
         -App runs on iphone 4 and 5, but with minor UI issues (constraints)
  
  
@@ -139,6 +139,7 @@
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
+        makeNegative = NO;
     } else {
         NSLog(@"number not before operation");
         [self showErrorAlert];
@@ -177,6 +178,7 @@
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
+        makeNegative = NO;
     } else {
         NSLog(@"number not before operation");
         [self showErrorAlert];
@@ -215,6 +217,7 @@
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
+        makeNegative = NO;
     } else {
         NSLog(@"number not before operation");
         [self showErrorAlert];
@@ -253,6 +256,7 @@
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
+        makeNegative = NO;
     } else {
         NSLog(@"number not before operation");
         [self showErrorAlert];
@@ -274,6 +278,7 @@
         feedback = [NSString stringWithFormat:@"%@)", feedback];
         self.feedbackTextView.text = feedback;
         justAddedParantheses = NO;
+//        makeNegative = NO;
         [self calculate];
         [self updateResult];
         [self changePreviousOperation];
@@ -419,23 +424,42 @@
 
 
 - (IBAction)plusMinusButtonPressed:(UIButton *)sender {
-//    if (![self isInOperation]) {
-//        //No operations yet
-//        if (total == 0) {
-//            //Entered a number
-//            if (![self.feedbackTextView.text isEqualToString:@""]) {
-//                if (!makeNegative) {
-//                    feedback = [NSString stringWithFormat:@"-%@", feedback];
-//                    makeNegative = YES;
-//                } else {
-//                    
-//                    makeNegative = NO;
-//                }
-//            }
-//        } else {
-//            
-//        }
-//    }
+    NSLog(@"plus minus pressed");
+    //No operations yet
+    if (total == 0) {
+        //Entered a number
+        if (![self.feedbackTextView.text isEqualToString:@""]) {
+            if (!makeNegative) {
+                feedback = [NSString stringWithFormat:@"-%@", feedback];
+                self.feedbackTextView.text = feedback;
+                makeNegative = YES;
+                numberPressedDouble*=-1;
+            } else {
+                feedback = [feedback substringFromIndex:1];
+                self.feedbackTextView.text = feedback;
+                makeNegative = NO;
+                numberPressedDouble*=-1;
+            }
+        }
+    //In mid operation
+    } else {
+        NSString *ending = [self.feedbackTextView.text substringWithRange:NSMakeRange([self.feedbackTextView.text length]-1, 1)];
+        if (![ending isEqualToString:@")"] && ![ending isEqualToString:@" "]) {
+            if (!makeNegative) {
+                ending = [NSString stringWithFormat:@"-%@", ending];
+                feedback = [NSString stringWithFormat:@"%@%@", [feedback substringToIndex:[feedback length]-1], ending];
+                self.feedbackTextView.text = feedback;
+                makeNegative = YES;
+                numberPressedDouble*=-1;
+            } else {
+                ending = [self.feedbackTextView.text substringWithRange:NSMakeRange([self.feedbackTextView.text length]-1, 1)];
+                feedback = [NSString stringWithFormat:@"%@%@", [feedback substringToIndex:[feedback length]-2], ending];
+                self.feedbackTextView.text = feedback;
+                makeNegative = NO;
+                numberPressedDouble*=-1;
+            }
+        }
+    }
 }
 
 
@@ -597,6 +621,7 @@
     It clears the UI along with variables
 */
 -(void)clear{
+    makeNegative = NO;
     [previousOperation removeAllObjects];
     isDecimal = NO;
     justAddedParantheses = NO;
