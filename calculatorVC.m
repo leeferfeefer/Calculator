@@ -108,34 +108,40 @@
     NSLog(@"Add Pressed");
     if ([self isNumberBeforeOperation]) {
         
-        //If switched from another operation - replace operation with new one
-        if (subtracting || multiplying || dividing) {
-            feedback = [feedback substringToIndex:[feedback length]-3];
-            self.feedbackTextView.text = feedback;
-        }
-        
         [self changePreviousOperation];
         adding = !adding;
         
         //Show/hide dividing state
         [self changeOperationStateOf:sender];
-        [self updateFeedbackWithNumber:0 andOperation:@"+"];
+        if ([self.feedbackTextView.text length] > 2) {
+            if (![[feedback substringFromIndex:[feedback length]-2] isEqualToString:@"+ "]) {
+                [self updateFeedbackWithNumber:0 andOperation:@"+"];
+                if (total == 0) {
+                    total = numberPressedDouble;
+                } else {
+                    //in case of double operation
+                    if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") +"]) {
+                        total = [self add:total to:numberPressedDouble];
+                    }
+                }
+            }
+        } else {
+            [self updateFeedbackWithNumber:0 andOperation:@"+"];
+            if (total == 0) {
+                total = numberPressedDouble;
+            } else {
+                //in case of double operation
+                if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") +"]) {
+                    total = [self add:total to:numberPressedDouble];
+                }
+            }
+        }
         
         if (!justAddedParantheses) {
             [self addParentheses];
             justAddedParantheses = YES;
         }
     
-        
-        if (total == 0) {
-            total = numberPressedDouble;
-        } else {
-            NSLog(@"runnign?");
-            //in case of double operation
-            if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") +"]) {
-                total = [self add:total to:numberPressedDouble];
-            }
-        }
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
@@ -149,32 +155,40 @@
     NSLog(@"Subtract Pressed");
     if ([self isNumberBeforeOperation]) {
         
-        //If switched from another operation - replace operation with new one
-        if (adding || multiplying || dividing) {
-            feedback = [feedback substringToIndex:[feedback length]-3];
-            self.feedbackTextView.text = feedback;
-        }
-        
         [self changePreviousOperation];
         subtracting = !subtracting;
         
         //Show/hide dividing state
         [self changeOperationStateOf:sender];
-        [self updateFeedbackWithNumber:0 andOperation:@"-"];
+        if ([self.feedbackTextView.text length] > 2) {
+            if (![[feedback substringFromIndex:[feedback length]-2] isEqualToString:@"- "]) {
+                [self updateFeedbackWithNumber:0 andOperation:@"-"];
+                if (total == 0) {
+                    total = numberPressedDouble;
+                } else {
+                    //in case of double operation
+                    if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") -"]) {
+                        total = [self subtract:numberPressedDouble from:total];
+                    }
+                }
+            }
+        } else {
+            [self updateFeedbackWithNumber:0 andOperation:@"-"];
+            if (total == 0) {
+                total = numberPressedDouble;
+            } else {
+                //in case of double operation
+                if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") -"]) {
+                    total = [self subtract:numberPressedDouble from:total];
+                }
+            }
+        }
         
         if (!justAddedParantheses) {
             [self addParentheses];
             justAddedParantheses = YES;
         }
-        
-        if (total == 0) {
-            total = numberPressedDouble;
-        } else {
-            //in case of double operation
-            if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") -"]) {
-                total = [self subtract:numberPressedDouble from:total];
-            }
-        }
+
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
@@ -188,32 +202,40 @@
     NSLog(@"Multiply Pressed");
     if ([self isNumberBeforeOperation]) {
         
-        //If switched from another operation - replace operation with new one
-        if (subtracting || adding || dividing) {
-            feedback = [feedback substringToIndex:[feedback length]-3];
-            self.feedbackTextView.text = feedback;
-        }
-    
         [self changePreviousOperation];
         multiplying = !multiplying;
 
         //Show/hide dividing state
         [self changeOperationStateOf:sender];
-        [self updateFeedbackWithNumber:0 andOperation:@"x"];
+        if ([self.feedbackTextView.text length] > 2) {
+            if (![[feedback substringFromIndex:[feedback length]-2] isEqualToString:@"x "]) {
+                [self updateFeedbackWithNumber:0 andOperation:@"x"];
+                if (total == 0) {
+                    total = numberPressedDouble;
+                } else {
+                    //in case of double operation
+                    if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") x"]) {
+                        total = [self multiply:total by:numberPressedDouble];
+                    }
+                }
+            }
+        } else {
+            [self updateFeedbackWithNumber:0 andOperation:@"x"];
+            if (total == 0) {
+                total = numberPressedDouble;
+            } else {
+                //in case of double operation
+                if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") x"]) {
+                    total = [self multiply:total by:numberPressedDouble];
+                }
+            }
+        }
         
         if (!justAddedParantheses) {
             [self addParentheses];
             justAddedParantheses = YES;
         }
         
-        if (total == 0) {
-            total = numberPressedDouble;
-        } else {
-            //in case of double operation
-            if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") x"]) {
-                total = [self multiply:numberPressedDouble by:total];
-            }
-        }
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
@@ -226,33 +248,42 @@
 - (IBAction)divideButtonPressed:(UIButton *)sender {
     NSLog(@"Divide Pressed");
     if ([self isNumberBeforeOperation]) {
-        
-        //If switched from another operation - replace operation with new one
-        if (subtracting || multiplying || adding) {
-            feedback = [feedback substringToIndex:[feedback length]-3];
-            self.feedbackTextView.text = feedback;
-        }
 
         [self changePreviousOperation];
         dividing = !dividing;
         
         //Show/hide dividing state
         [self changeOperationStateOf:sender];
-        [self updateFeedbackWithNumber:0 andOperation:@"/"];
+        if ([self.feedbackTextView.text length] > 2) {
+            if (![[feedback substringFromIndex:[feedback length]-2] isEqualToString:@"/ "]) {
+                [self updateFeedbackWithNumber:0 andOperation:@"/"];
+                if (total == 0) {
+                    total = numberPressedDouble;
+                } else {
+                    //in case of double operation
+                    if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") /"]) {
+                        total = [self divide:total by:numberPressedDouble];
+                    }
+                }
+            }
+        } else {
+            [self updateFeedbackWithNumber:0 andOperation:@"/"];
+            if (total == 0) {
+                total = numberPressedDouble;
+            } else {
+                //in case of double operation
+                if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") /"]) {
+                    total = [self divide:total by:numberPressedDouble];
+                }
+            }
+        }
         
         if (!justAddedParantheses) {
             [self addParentheses];
             justAddedParantheses = YES;
         }
         
-        if (total == 0) {
-            total = numberPressedDouble;
-        } else {
-            //in case of double operation
-            if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") /"]) {
-                total = [self divide:total by:numberPressedDouble];
-            }
-        }
+        
         numberPressedDouble = 0.0;
         exponent = 0;
         isDecimal = NO;
