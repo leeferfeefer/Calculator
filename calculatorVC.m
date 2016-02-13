@@ -23,6 +23,11 @@
     Enjoy! :)
  
  
+    NOTE:
+        -This app runs best on iphone 6
+        -App runs on iphone 4 and 5, but with minor UI issues (constraints)
+ 
+ 
 */
 
 #import "calculatorVC.h"
@@ -120,12 +125,12 @@
             [self addParentheses];
             justAddedParantheses = YES;
         }
-        
-
+    
         
         if (total == 0) {
             total = numberPressedDouble;
         } else {
+            NSLog(@"runnign?");
             //in case of double operation
             if (![[feedback substringWithRange:NSMakeRange([feedback length]-4, 3)] isEqualToString:@") +"]) {
                 total = [self add:total to:numberPressedDouble];
@@ -294,7 +299,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)oneButtonPressed:(UIButton *)sender {
     NSLog(@"One Pressed");
@@ -303,7 +308,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)twoButtonPressed:(UIButton *)sender {
     NSLog(@"Two Pressed");
@@ -312,7 +317,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)threeButtonPressed:(UIButton *)sender {
     NSLog(@"Three Pressed");
@@ -321,7 +326,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)fourButtonPressed:(UIButton *)sender {
     NSLog(@"Four Pressed");
@@ -330,7 +335,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)fiveButtonPressed:(UIButton *)sender {
     NSLog(@"Five Pressed");
@@ -339,7 +344,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)sixButtonPressed:(UIButton *)sender {
     NSLog(@"Six Pressed");
@@ -348,7 +353,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)sevenButtonPressed:(UIButton *)sender {
     NSLog(@"Seven Pressed");
@@ -357,7 +362,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)eightButtonPressed:(UIButton *)sender {
     NSLog(@"Eight Pressed");
@@ -366,7 +371,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 - (IBAction)nineButtonPressed:(UIButton *)sender {
     NSLog(@"Nine Pressed");
@@ -375,7 +380,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
-    [self changePreviousOperation];
+    [self changePreviousOperationUI];
 }
 
 
@@ -736,7 +741,7 @@
 }
 
 /*
-    This method changes the state of previous operation
+    This method changes the state of current operation (ui and variables - boolean operation state)
 */
 -(void)changePreviousOperation{
     if (adding) {
@@ -750,6 +755,21 @@
         self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
     } else if (dividing) {
         dividing = !dividing;
+        self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
+    }
+}
+
+/*
+    This method changes the state of current operation (ui without the boolean operation state)
+*/
+-(void)changePreviousOperationUI{
+    if (adding) {
+        self.addButton.layer.borderColor = [UIColor blackColor].CGColor;
+    } else if (subtracting) {
+        self.subtractButton.layer.borderColor = [UIColor blackColor].CGColor;
+    } else if (multiplying) {
+        self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
+    } else if (dividing) {
         self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
     }
 }
