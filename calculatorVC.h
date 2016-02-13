@@ -27,6 +27,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *multiplyButton;
 @property (strong, nonatomic) IBOutlet UIButton *divideButton;
 @property (strong, nonatomic) IBOutlet UIButton *equalsButton;
+@property (strong, nonatomic) IBOutlet UIButton *plusMinusButton;
+
 //Numbers
 @property (strong, nonatomic) IBOutlet UIButton *zeroButton;
 @property (strong, nonatomic) IBOutlet UIButton *oneButton;
@@ -68,6 +70,7 @@
 - (IBAction)clearButtonPressed:(UIButton *)sender;
 - (IBAction)backspaceButtonPressed:(UIButton *)sender;
 - (IBAction)decimalButtonPressed:(UIButton *)sender;
+- (IBAction)plusMinusButtonPressed:(UIButton *)sender;
 
 
 

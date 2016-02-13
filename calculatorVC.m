@@ -6,6 +6,25 @@
 //  Copyright © 2016 Dan Fincher. All rights reserved.
 //
 
+
+
+
+
+
+/*
+ 
+ 
+    This is my app! 
+ 
+    I decided to create a calculator that shows the user what steps they have taken in order to get the result that is displayed.
+    By including parantheses, the user can easily see (by reading right to left) how they got their answer. 
+    The app also includes a backspace button that allows the user to quickly go back one operation.
+ 
+    Enjoy! :)
+ 
+ 
+*/
+
 #import "calculatorVC.h"
 
 
@@ -22,6 +41,8 @@
     BOOL isDecimal;
     
     BOOL justAddedParantheses;
+    
+    BOOL makeNegative;
     
     UIButton *previousOperationButton;
     double numberPressedDouble;
@@ -66,9 +87,27 @@
 #pragma mark - Button Methods
 #pragma mark - Operations
 
+
+/*
+    These 4 methods are responsible for carrying out the 4 operations (add, subtract, multiply, divide)
+    They correspond to the respective buttons being pressed
+    If pressed and the feedback text view is not empty (when a number has been entered first:
+     - They take care of updating the feedback text view (the operation, parantheses, and UI)
+     - Changes operation state
+     - Carries out the operation so that numbers do not get missed or incorrectly calculated (double operation)
+     - Changes the isDecimal boolean value to false
+ 
+    If pressed and the feedback text view IS empty, a UIAlertController appears and states that a number must be inputted beforehand
+*/
 - (IBAction)addButtonPressed:(UIButton *)sender {
     NSLog(@"Add Pressed");
     if ([self isNumberBeforeOperation]) {
+        
+        //If switched from another operation - replace operation with new one
+        if (subtracting || multiplying || dividing) {
+            feedback = [feedback substringToIndex:[feedback length]-3];
+            self.feedbackTextView.text = feedback;
+        }
         
         [self changePreviousOperation];
         adding = !adding;
@@ -81,6 +120,8 @@
             [self addParentheses];
             justAddedParantheses = YES;
         }
+        
+
         
         if (total == 0) {
             total = numberPressedDouble;
@@ -101,6 +142,12 @@
 - (IBAction)subtractButtonPressed:(UIButton *)sender {
     NSLog(@"Subtract Pressed");
     if ([self isNumberBeforeOperation]) {
+        
+        //If switched from another operation - replace operation with new one
+        if (adding || multiplying || dividing) {
+            feedback = [feedback substringToIndex:[feedback length]-3];
+            self.feedbackTextView.text = feedback;
+        }
         
         [self changePreviousOperation];
         subtracting = !subtracting;
@@ -133,6 +180,12 @@
 - (IBAction)multiplyButtonPressed:(UIButton *)sender {
     NSLog(@"Multiply Pressed");
     if ([self isNumberBeforeOperation]) {
+        
+        //If switched from another operation - replace operation with new one
+        if (subtracting || adding || dividing) {
+            feedback = [feedback substringToIndex:[feedback length]-3];
+            self.feedbackTextView.text = feedback;
+        }
     
         [self changePreviousOperation];
         multiplying = !multiplying;
@@ -165,6 +218,12 @@
 - (IBAction)divideButtonPressed:(UIButton *)sender {
     NSLog(@"Divide Pressed");
     if ([self isNumberBeforeOperation]) {
+        
+        //If switched from another operation - replace operation with new one
+        if (subtracting || multiplying || adding) {
+            feedback = [feedback substringToIndex:[feedback length]-3];
+            self.feedbackTextView.text = feedback;
+        }
 
         [self changePreviousOperation];
         dividing = !dividing;
@@ -194,6 +253,16 @@
         [self showErrorAlert];
     }
 }
+
+
+/*
+    This button method corresponds to the equals button
+    If it has already been pressed, (by checking if there is a closed parantheses at the end, it:
+        - Updates the feedback text view
+        - Calculates the last term being operated on
+        - Updates the result text view
+        - Clears the UI of any previous operation
+*/
 - (IBAction)equalsButtonPressed:(UIButton *)sender {
     NSLog(@"Equals Pressed");
     if (![[feedback substringWithRange:NSMakeRange([feedback length]-1, 1)] isEqualToString:@")"]) {
@@ -210,6 +279,14 @@
 
 #pragma mark - Numbers
 
+/*
+    These button methods check to see if there is an operation being carried out as well as if both the feedback and result text views are empty. If not, (after the user hits enter) then everything is cleared out
+    These button methods correspond to each number button
+    When pressed:
+        - They are responsible for check if the user is imputting a number with more than 1 digit
+        - They update the feedback to the user so that they may see operations being carried out
+        - They also clear the UI of any previous operation
+*/
 - (IBAction)zeroButtonPressed:(UIButton *)sender {
     NSLog(@"Zero Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
@@ -217,6 +294,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)oneButtonPressed:(UIButton *)sender {
     NSLog(@"One Pressed");
@@ -225,6 +303,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)twoButtonPressed:(UIButton *)sender {
     NSLog(@"Two Pressed");
@@ -233,6 +312,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)threeButtonPressed:(UIButton *)sender {
     NSLog(@"Three Pressed");
@@ -241,6 +321,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)fourButtonPressed:(UIButton *)sender {
     NSLog(@"Four Pressed");
@@ -249,6 +330,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)fiveButtonPressed:(UIButton *)sender {
     NSLog(@"Five Pressed");
@@ -257,6 +339,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)sixButtonPressed:(UIButton *)sender {
     NSLog(@"Six Pressed");
@@ -265,6 +348,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)sevenButtonPressed:(UIButton *)sender {
     NSLog(@"Seven Pressed");
@@ -273,6 +357,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)eightButtonPressed:(UIButton *)sender {
     NSLog(@"Eight Pressed");
@@ -281,6 +366,7 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 - (IBAction)nineButtonPressed:(UIButton *)sender {
     NSLog(@"Nine Pressed");
@@ -289,17 +375,33 @@
     }
     [self checkForMultiDigitWithNumber:[sender.titleLabel.text doubleValue]];
     [self updateFeedbackWithNumber:sender.titleLabel.text andOperation:nil];
+    [self changePreviousOperation];
 }
 
 
 #pragma mark - Other
 
+/*
+    This method corresponds to the clear button
+    This method calls the clear method - which clears the console (result and feedback text view) and previous variables
+*/
 - (IBAction)clearButtonPressed:(UIButton *)sender {
     [self clear];
 }
+
+/*
+    This method corresponds to the backspace button
+    This method calls the remove outer parantheses method - which returns the user back one operation and shows result
+*/
 - (IBAction)backspaceButtonPressed:(UIButton *)sender {
     [self removeOuterParantheses];
 }
+
+/*
+    This method corresponds to the decimal button
+    This method updates the UI with a decimal for the number being operated on
+    Also changes the isDecimal boolean value
+*/
 - (IBAction)decimalButtonPressed:(UIButton *)sender {
     NSLog(@"total is %f", total);
     NSLog(@"number pressed double is %f", numberPressedDouble);
@@ -311,12 +413,47 @@
 
 
 
+- (IBAction)plusMinusButtonPressed:(UIButton *)sender {
+//    if (![self isInOperation]) {
+//        //No operations yet
+//        if (total == 0) {
+//            //Entered a number
+//            if (![self.feedbackTextView.text isEqualToString:@""]) {
+//                if (!makeNegative) {
+//                    feedback = [NSString stringWithFormat:@"-%@", feedback];
+//                    makeNegative = YES;
+//                } else {
+//                    
+//                    makeNegative = NO;
+//                }
+//            }
+//        } else {
+//            
+//        }
+//    }
+}
+
+
+
 
 #pragma mark - Helper Methods
 
+/*
+    This method changes and updates the UI -> updates the result by the variable total
+*/
 -(void)updateResult{
     self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
 }
+
+/*
+    This method updates the UI -> updates the feedback according to the inputted number and operation arguments
+    If the operation argument is nil:
+     - If feedback is an empty string (first number being inputted), then it gets shown and set equal to feedback
+     - If feedback is NOT empty, a number is added to the feedback and shown - this happens when a number button method is called
+ 
+    If the operation argument is NOT nil:
+     - The feedback txt view is shown with an operation within it - this happens when an operation button method is called
+*/
 -(void)updateFeedbackWithNumber:(NSString *)number andOperation:(NSString *)operation {
     if (!operation) {
         if ([feedback isEqualToString:@""]) {
@@ -329,6 +466,11 @@
     }
     self.feedbackTextView.text = feedback;
 }
+
+/*
+    This method is called by viewDidLoad
+    It adds border parameters to every UI element (buttons and text views)
+*/
 -(void)addBorders{
     self.resultTextView.layer.borderColor = [UIColor blackColor].CGColor;
     self.resultTextView.layer.borderWidth = kBorderSize;
@@ -370,6 +512,10 @@
     self.decimalButton.layer.borderWidth = kBorderSize;
     self.decimalButton.layer.cornerRadius = kCornerRadius;
     self.decimalButton.layer.masksToBounds = YES;
+    self.plusMinusButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.plusMinusButton.layer.borderWidth = kBorderSize;
+    self.plusMinusButton.layer.cornerRadius = kCornerRadius;
+    self.plusMinusButton.layer.masksToBounds = YES;
     
     self.zeroButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.zeroButton.layer.borderWidth = kBorderSize;
@@ -412,6 +558,13 @@
     self.nineButton.layer.cornerRadius = kCornerRadius;
     self.nineButton.layer.masksToBounds = YES;
 }
+
+/*
+    This method calculates the total
+    This gets called by the equals button method
+ 
+    It also saves the state of the operation so that when the backspace button is pressed, the calculator return to one operation before
+*/
 -(void)calculate {
     NSLog(@"total before operation is %f", total);
     if (adding) {
@@ -433,6 +586,11 @@
     }
     NSLog(@"total after operation is %f", total);
 }
+
+/*
+    This method gets called by the viedidload, button methods, clear button method, and backspace button methods
+    It clears the UI along with variables
+*/
 -(void)clear{
     [previousOperation removeAllObjects];
     isDecimal = NO;
@@ -446,6 +604,15 @@
     
     [self changePreviousOperation];
 }
+
+/*
+    This method is called by every number button method
+ 
+    It is responsible for displaying and getting multidigit numbers ready for calculation
+    It performs in 2 ways:
+     - Decimal mode: Performs multi digit numbers to the right of decimal
+     - NonDecimal mode: Performs multi digit numbers to the left of decimal
+*/
 -(void)checkForMultiDigitWithNumber:(double)buttonNumber{
     if (!isDecimal) {
         NSLog(@"no decimal");
@@ -469,9 +636,17 @@
     
     NSLog(@"the number pressed double is %f", numberPressedDouble);
 }
+
+/*
+    This method gets called to add the beginning parantheses
+*/
 -(void)addParentheses {
     feedback = [NSString stringWithFormat:@"(%@", feedback];
 }
+
+/*
+    This method removes the outer parantheses, restores previous operation state, adn displays result
+*/
 -(void)removeOuterParantheses {
     
     //If not in middle of operation
@@ -499,6 +674,7 @@
             NSString *lastOperation = [previousOperation lastObject];
             [previousOperation removeLastObject];
             
+            //Restore state
             if ([lastOperation isEqualToString:@"add"]) {
                 total = [self subtract:lastNumber from:total];
             } else if ([lastOperation isEqualToString:@"subtract"]) {
@@ -514,12 +690,26 @@
         
     }
 }
+
+/*
+    This method returns a boolean that tells the object calling it if there are numbers displayed in feedback before an operation
+ 
+    This method gets called by the 4 operation methods
+*/
 -(BOOL)isNumberBeforeOperation{
     return ![self.feedbackTextView.text isEqualToString:@""];
 }
+
+/*
+    This method states if there is an operation taking place (in progress)
+*/
 -(BOOL)isInOperation{
     return adding || subtracting || multiplying || dividing;
 }
+
+/*
+    This method shows an alert message that tells the user that they must enter a number before doing any calculation or operation
+*/
 -(void)showErrorAlert{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops" message:@"You must enter a number before any operation." preferredStyle:UIAlertControllerStyleAlert];
     
@@ -529,20 +719,14 @@
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
--(NSString *)reverseString:(NSString *)reverseString{
-    NSMutableString *reversedString = [NSMutableString new];
-    NSInteger index = [reverseString length];
-    while (index > 0) {
-        index--;
-        NSRange range = NSMakeRange(index, 1);
-        [reversedString appendString:[reverseString substringWithRange:range]];
-    }
-    return reversedString;
-}
+
 
 
 #pragma mark - Operation State Methods
 
+/*
+    This method changes the operation state (represented by UI) of the previous operation button
+*/
 -(void)changeOperationStateOf:(UIButton *)sender {
     if (previousOperationButton) {
         [previousOperationButton.layer setBorderColor:[UIColor blackColor].CGColor];
@@ -550,6 +734,10 @@
     previousOperationButton = sender;
     [sender.layer setBorderColor:[UIColor redColor].CGColor];
 }
+
+/*
+    This method changes the state of previous operation
+*/
 -(void)changePreviousOperation{
     if (adding) {
         adding = !adding;
@@ -578,6 +766,12 @@
 #pragma mark - Operations
 
 #pragma mark - Addition
+
+/*
+    These methods are straightforward
+ 
+    They are represented as these methods in order to make them easier in terms of modularity and consistency
+*/
 
 -(double)add:(double)number1 to:(double)number2{
     return number1 + number2;
