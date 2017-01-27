@@ -33,8 +33,9 @@
 #import "calculatorVC.h"
 
 
-#define kBorderSize 2
-#define kCornerRadius 10
+#define kBorderSize 1
+#define kCornerRadius 0
+#define kBorderColor [UIColor blackColor].CGColor
 
 @interface calculatorVC () {
     
@@ -342,6 +343,9 @@
         - They also clear the UI of any previous operation
 */
 - (IBAction)zeroButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Zero Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -351,6 +355,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)oneButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"One Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -360,6 +367,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)twoButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Two Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -369,6 +379,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)threeButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Three Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -378,6 +391,10 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)fourButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
+
 //    NSLog(@"Four Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -387,6 +404,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)fiveButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Five Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -396,6 +416,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)sixButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Six Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -405,6 +428,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)sevenButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Seven Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -414,6 +440,9 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)eightButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
 //    NSLog(@"Eight Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -423,6 +452,10 @@
     [self changePreviousOperationUI];
 }
 - (IBAction)nineButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
+    
 //    NSLog(@"Nine Pressed");
     if (![self isInOperation] && ![self.feedbackTextView.text isEqualToString:@""] && ![self.resultTextView.text isEqualToString:[NSString stringWithFormat:@"%f", (double)0]]) {
         [self clear];
@@ -440,7 +473,9 @@
     This method calls the clear method - which clears the console (result and feedback text view) and previous variables
 */
 - (IBAction)clearButtonPressed:(UIButton *)sender {
+    
     [self clear];
+    self.backspaceButton.enabled = NO;
 }
 
 /*
@@ -449,6 +484,10 @@
 */
 - (IBAction)backspaceButtonPressed:(UIButton *)sender {
     [self removeOuterParantheses];
+    
+    if (total == 0) {
+        self.backspaceButton.enabled = NO;
+    }
 }
 
 /*
@@ -457,6 +496,10 @@
     Also changes the isDecimal boolean value
 */
 - (IBAction)decimalButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+
+    
 //    NSLog(@"total is %f", total);
 //    NSLog(@"number pressed double is %f", numberPressedDouble);
     if (!isDecimal) {
@@ -468,6 +511,10 @@
 
 
 - (IBAction)plusMinusButtonPressed:(UIButton *)sender {
+    
+    self.backspaceButton.enabled = YES;
+    
+    
 //    NSLog(@"plus minus pressed");
     //No operations yet
     if (total == 0) {
@@ -547,95 +594,95 @@
 -(void)addBorders{
     
     
-    /*
-    self.resultTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    self.resultTextView.layer.borderColor = kBorderColor;
     self.resultTextView.layer.borderWidth = kBorderSize;
     self.resultTextView.layer.cornerRadius = kCornerRadius;
     self.resultTextView.layer.masksToBounds = YES;
-    self.feedbackTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.feedbackTextView.layer.borderColor = kBorderColor;
     self.feedbackTextView.layer.borderWidth = kBorderSize;
     self.feedbackTextView.layer.cornerRadius = kCornerRadius;
     self.feedbackTextView.layer.masksToBounds = YES;
-    self.clearButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.clearButton.layer.borderColor = kBorderColor;
     self.clearButton.layer.borderWidth = kBorderSize;
     self.clearButton.layer.cornerRadius = kCornerRadius;
     self.clearButton.layer.masksToBounds = YES;
-    self.backspaceButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.backspaceButton.layer.borderColor = kBorderColor;
     self.backspaceButton.layer.borderWidth = kBorderSize;
     self.backspaceButton.layer.cornerRadius = kCornerRadius;
     self.backspaceButton.layer.masksToBounds = YES;
-    self.addButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.addButton.layer.borderColor = kBorderColor;
     self.addButton.layer.borderWidth = kBorderSize;
     self.addButton.layer.cornerRadius = kCornerRadius;
     self.addButton.layer.masksToBounds = YES;
-    self.subtractButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.subtractButton.layer.borderColor = kBorderColor;
     self.subtractButton.layer.borderWidth = kBorderSize;
     self.subtractButton.layer.cornerRadius = kCornerRadius;
     self.subtractButton.layer.masksToBounds = YES;
-    self.multiplyButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.multiplyButton.layer.borderColor = kBorderColor;
     self.multiplyButton.layer.borderWidth = kBorderSize;
     self.multiplyButton.layer.cornerRadius = kCornerRadius;
     self.multiplyButton.layer.masksToBounds = YES;
-    self.divideButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.divideButton.layer.borderColor = kBorderColor;
     self.divideButton.layer.borderWidth = kBorderSize;
     self.divideButton.layer.cornerRadius = kCornerRadius;
     self.divideButton.layer.masksToBounds = YES;
-    self.equalsButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.equalsButton.layer.borderColor = kBorderColor;
     self.equalsButton.layer.borderWidth = kBorderSize;
     self.equalsButton.layer.cornerRadius = kCornerRadius;
     self.equalsButton.layer.masksToBounds = YES;
-    self.decimalButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.decimalButton.layer.borderColor = kBorderColor;
     self.decimalButton.layer.borderWidth = kBorderSize;
     self.decimalButton.layer.cornerRadius = kCornerRadius;
     self.decimalButton.layer.masksToBounds = YES;
-    self.plusMinusButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.plusMinusButton.layer.borderColor = kBorderColor;
     self.plusMinusButton.layer.borderWidth = kBorderSize;
     self.plusMinusButton.layer.cornerRadius = kCornerRadius;
     self.plusMinusButton.layer.masksToBounds = YES;
     
-    self.zeroButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.zeroButton.layer.borderColor = kBorderColor;
     self.zeroButton.layer.borderWidth = kBorderSize;
     self.zeroButton.layer.cornerRadius = kCornerRadius;
     self.zeroButton.layer.masksToBounds = YES;
-    self.oneButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.oneButton.layer.borderColor = kBorderColor;
     self.oneButton.layer.borderWidth = kBorderSize;
     self.oneButton.layer.cornerRadius = kCornerRadius;
     self.oneButton.layer.masksToBounds = YES;
-    self.twoButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.twoButton.layer.borderColor = kBorderColor;
     self.twoButton.layer.borderWidth = kBorderSize;
     self.twoButton.layer.cornerRadius = kCornerRadius;
     self.twoButton.layer.masksToBounds = YES;
-    self.threeButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.threeButton.layer.borderColor = kBorderColor;
     self.threeButton.layer.borderWidth = kBorderSize;
     self.threeButton.layer.cornerRadius = kCornerRadius;
     self.threeButton.layer.masksToBounds = YES;
-    self.fourButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.fourButton.layer.borderColor = kBorderColor;
     self.fourButton.layer.borderWidth = kBorderSize;
     self.fourButton.layer.cornerRadius = kCornerRadius;
     self.fourButton.layer.masksToBounds = YES;
-    self.fiveButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.fiveButton.layer.borderColor = kBorderColor;
     self.fiveButton.layer.borderWidth = kBorderSize;
     self.fiveButton.layer.cornerRadius = kCornerRadius;
     self.fiveButton.layer.masksToBounds = YES;
-    self.sixButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.sixButton.layer.borderColor = kBorderColor;
     self.sixButton.layer.borderWidth = kBorderSize;
     self.sixButton.layer.cornerRadius = kCornerRadius;
     self.sixButton.layer.masksToBounds = YES;
-    self.sevenButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.sevenButton.layer.borderColor = kBorderColor;
     self.sevenButton.layer.borderWidth = kBorderSize;
     self.sevenButton.layer.cornerRadius = kCornerRadius;
     self.sevenButton.layer.masksToBounds = YES;
-    self.eightButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.eightButton.layer.borderColor = kBorderColor;
     self.eightButton.layer.borderWidth = kBorderSize;
     self.eightButton.layer.cornerRadius = kCornerRadius;
     self.eightButton.layer.masksToBounds = YES;
-    self.nineButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.nineButton.layer.borderColor = kBorderColor;
     self.nineButton.layer.borderWidth = kBorderSize;
     self.nineButton.layer.cornerRadius = kCornerRadius;
     self.nineButton.layer.masksToBounds = YES;
      
      
-     */
+    
 }
 
 /*
@@ -737,8 +784,10 @@
         NSInteger count = [temp length] - [[temp stringByReplacingOccurrencesOfString:parameter withString:@""] length];
         count /= [parameter length];
         
+        NSLog(@"count is %ld", (long)count);
+        
         //If only one operation
-        if (count == 1) {
+        if (count == 1 || count == 0) {
             [self clear];
         } else {
             //Remove outer parantheses
