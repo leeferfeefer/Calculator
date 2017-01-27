@@ -538,6 +538,9 @@
     It adds border parameters to every UI element (buttons and text views)
 */
 -(void)addBorders{
+    
+    
+    /*
     self.resultTextView.layer.borderColor = [UIColor blackColor].CGColor;
     self.resultTextView.layer.borderWidth = kBorderSize;
     self.resultTextView.layer.cornerRadius = kCornerRadius;
@@ -623,6 +626,9 @@
     self.nineButton.layer.borderWidth = kBorderSize;
     self.nineButton.layer.cornerRadius = kCornerRadius;
     self.nineButton.layer.masksToBounds = YES;
+     
+     
+     */
 }
 
 /*
