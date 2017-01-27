@@ -14,7 +14,7 @@
 		1709F85E1C68033200B22A87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1709F85C1C68033200B22A87 /* LaunchScreen.storyboard */; };
 		1709F8691C68033200B22A87 /* CalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1709F8681C68033200B22A87 /* CalculatorTests.m */; };
 		1709F8741C68033200B22A87 /* CalculatorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1709F8731C68033200B22A87 /* CalculatorUITests.m */; };
-		1709F8861C68087700B22A87 /* calculatorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1709F8851C68087700B22A87 /* calculatorVC.m */; };
+		B17F68A41E3BB75B00ADE4C6 /* calculatorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B17F68A31E3BB75B00ADE4C6 /* calculatorVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,7 @@
 		1709F8731C68033200B22A87 /* CalculatorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorUITests.m; sourceTree = "<group>"; };
 		1709F8751C68033200B22A87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1709F8841C68087700B22A87 /* calculatorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = calculatorVC.h; path = ../calculatorVC.h; sourceTree = "<group>"; };
-		1709F8851C68087700B22A87 /* calculatorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = calculatorVC.m; path = ../calculatorVC.m; sourceTree = "<group>"; };
+		B17F68A31E3BB75B00ADE4C6 /* calculatorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = calculatorVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				1709F8841C68087700B22A87 /* calculatorVC.h */,
-				1709F8851C68087700B22A87 /* calculatorVC.m */,
+				B17F68A31E3BB75B00ADE4C6 /* calculatorVC.m */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -295,9 +295,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1709F8861C68087700B22A87 /* calculatorVC.m in Sources */,
 				1709F8531C68033200B22A87 /* AppDelegate.m in Sources */,
 				1709F8501C68033200B22A87 /* main.m in Sources */,
+				B17F68A41E3BB75B00ADE4C6 /* calculatorVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
