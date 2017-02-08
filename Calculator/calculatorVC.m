@@ -75,6 +75,7 @@
     self.feedbackTextView.editable = NO;
     self.feedbackTextView.selectable = NO;
     self.feedbackTextView.delegate = self;
+    
 
     //Clear content
     [self clear];
@@ -110,7 +111,7 @@
 /*
     These 4 methods are responsible for carrying out the 4 operations (add, subtract, multiply, divide)
     They correspond to the respective buttons being pressed
-    If pressed and the feedback text view is not empty (when a number has been entered first:
+    If pressed and the feedback text view is not empty (when a number has been entered first):
      - They take care of updating the feedback text view (the operation, parantheses, and UI)
      - Changes operation state
      - Carries out the operation so that numbers do not get missed or incorrectly calculated (double operation)
@@ -332,6 +333,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 #pragma mark - Numbers
 
 /*
@@ -466,6 +478,20 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #pragma mark - Other
 
 /*
@@ -499,6 +525,12 @@
     
     self.backspaceButton.enabled = YES;
 
+    
+    
+    
+    
+    
+    
     
 //    NSLog(@"total is %f", total);
 //    NSLog(@"number pressed double is %f", numberPressedDouble);
@@ -562,7 +594,13 @@
     This method changes and updates the UI -> updates the result by the variable total
 */
 -(void)updateResult{
-    self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    formatter.maximumFractionDigits = 20;
+    
+    self.resultTextView.text = [formatter stringFromNumber:[NSNumber numberWithDouble:total]];
+
 }
 
 /*
@@ -727,7 +765,7 @@
     numberPressedDouble = 0.0;
     feedback = @"";
     self.feedbackTextView.text = @"";
-    self.resultTextView.text = [NSString stringWithFormat:@"%f", total];
+    self.resultTextView.text = @"0";
     
     [self changePreviousOperation];
 }
